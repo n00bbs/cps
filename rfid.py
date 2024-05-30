@@ -1,4 +1,5 @@
 import mfrc522
+from util import callback_helper
 
 class RFID:
   FIRST_BLOCK = 4
@@ -6,6 +7,19 @@ class RFID:
   DATA_BLOCKS = (BLOCK_COUNT - FIRST_BLOCK) - (BLOCK_COUNT - FIRST_BLOCK) // 4
 
   DEFAULT_AUTH_KEY = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
+
+  on_data_read_start: function | None = None
+  '''`Callable[[str], None]`'''
+  on_data_read_end: function | None = None
+  '''`Callable[[str], None]`'''
+  on_data_read_error: function | None = None
+  '''`Callable[[Exception], None]`'''
+  on_data_write: function | None = None
+  '''`Callable[[str], None]`'''
+  on_data_write_end: function | None = None
+  '''`Callable[[], None]`'''
+  on_data_write_error: function | None = None
+  '''`Callable[[Exception], None]`'''
 
   def __init__(self):
     self.reader = mfrc522.MFRC522(sck="GP18", mosi="GP19", miso="GP16", rst="GP17", cs="GP20")
@@ -90,19 +104,29 @@ class RFID:
       return None
     if self.previous_uid == uid:
       return None
-    print("UID: %s" % self._uidToString(uid))
     self.previous_uid = uid
     return uid
-  
+
   def read(self) -> str | None:
-    uid = self._init_interaction()
-    if uid is not None:
-      data = self._read(uid)
-      return data
+    try:
+      uid = self._init_interaction()
+      if uid is not None:
+        callback_helper(self.on_data_read_start, self._uidToString(uid))
+        data = self._read(uid)
+        callback_helper(self.on_data_read_end, data)
+        return data
+    except Exception as e:
+      callback_helper(self.on_data_read_error, e)
     return None
   
   def write(self, data: str) -> list | None:
-    uid = self._init_interaction()
-    if uid is not None:
-      return self._write(uid, data)
+    try:
+      uid = self._init_interaction()
+      if uid is not None:
+        callback_helper(self.on_data_write, self._uidToString(uid))
+        written_data = self._write(uid, data)
+        callback_helper(self.on_data_write_end)
+        return written_data
+    except Exception as e:
+      callback_helper(self.on_data_write_error, e)
     return None
