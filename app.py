@@ -17,6 +17,8 @@ class App:
     self.rfid.on_data_write = self._rfid_on_data_write
     self.rfid.on_data_write_end = self._rfid_on_data_write_end
     
+    self._print_mode()
+    
   
   async def __display_for_time(self, text: str, time: int):
     self.lcd.write(text)
