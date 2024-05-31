@@ -2,7 +2,7 @@ from lcd import LCD
 from rfid import RFID
 from status_led import StatusLed
 from buzzer import Buzzer
-from acces_control import AccessControl
+from access_control import AccessControl
 import asyncio
 from util import run_task_factory
 
