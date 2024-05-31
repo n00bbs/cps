@@ -95,12 +95,6 @@ class App:
   _buzz_ok = run_task_factory(__buzz_ok)
 
   async def __buzz_error(self):
-    self.noise_hummer.buzz(440)
-    await asyncio.sleep(1)
-    self.noise_hummer.stop()
-  _buzz_error = run_task_factory(__buzz_error)
-
-  async def __buzz_denied(self):
     count = 4
     for i in range(count):
       self.noise_hummer.buzz(440)
@@ -108,6 +102,16 @@ class App:
       self.noise_hummer.stop()
       if i < count - 1:
         await asyncio.sleep(0.25)
+  _buzz_error = run_task_factory(__buzz_error)
+
+  async def __buzz_denied(self):
+    count = 2
+    for i in range(count):
+      self.noise_hummer.buzz(440)
+      await asyncio.sleep_ms(250)
+      self.noise_hummer.stop()
+      if i < count - 1:
+        await asyncio.sleep_ms(250)
   _buzz_denied = run_task_factory(__buzz_denied)
 
   async def main_loop(self):
