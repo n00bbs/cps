@@ -7,10 +7,10 @@ class StatusLed:
     COLOR_CORRECTION_GREEN = 0.025
     COLOR_CORRECTION_BLUE = 0.2
 
-    def __init__(self):
-        self._red = Pin(1, Pin.OUT)
-        self._green = Pin(2, Pin.OUT)
-        self._blue = Pin(3, Pin.OUT)
+    def __init__(self, red: int = 1, green: int = 2, blue: int = 3):
+        self._red = Pin(red, Pin.OUT)
+        self._green = Pin(green, Pin.OUT)
+        self._blue = Pin(blue, Pin.OUT)
 
         self._red_pwm = PWM(self._red, freq=self.BASE_FREQUENCY)
         self._green_pwm = PWM(self._green, freq=self.BASE_FREQUENCY)

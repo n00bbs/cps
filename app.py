@@ -26,8 +26,9 @@ class App:
   
   async def __display_for_time(self, text: str, time: int):
     self.lcd.write(text)
-    await asyncio.sleep(time)
-    self._print_mode()
+    if time is not None:
+      await asyncio.sleep(time)
+      self._print_mode()
   _display_for_time = run_task_factory(__display_for_time)
 
   async def __status_led_for_time(self, color: str, time: int):

@@ -21,8 +21,8 @@ class RFID:
   on_data_write_error: function | None = None
   '''`Callable[[Exception], None]`'''
 
-  def __init__(self):
-    self.reader = mfrc522.MFRC522(sck="GP18", mosi="GP19", miso="GP16", rst="GP17", cs="GP20")
+  def __init__(self, sck: int, mosi: int, miso: int, rst: int, cs: int):
+    self.reader = mfrc522.MFRC522(sck=sck, mosi=mosi, miso=miso, rst=rst, cs=cs)
     self.last_uid = None
 
   def _uidToString(self, uid):

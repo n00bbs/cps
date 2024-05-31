@@ -3,8 +3,8 @@ from machine import Pin, PWM
 from time import sleep
 
 class Buzzer:
-  def __init__(self):
-    self._pin = Pin(0, Pin.OUT)
+  def __init__(self, pin: int):
+    self._pin = Pin(pin, Pin.OUT)
     self._pwm = PWM(self._pin)
 
   def buzz(self, frequency: int, duty_u16: int = 65535 // 2):
