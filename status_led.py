@@ -4,8 +4,8 @@ class StatusLed:
     BASE_FREQUENCY = 1000
 
     COLOR_CORRECTION_RED = 1
-    COLOR_CORRECTION_GREEN = .025
-    COLOR_CORRECTION_BLUE = .2
+    COLOR_CORRECTION_GREEN = 0.025
+    COLOR_CORRECTION_BLUE = 0.2
 
     def __init__(self):
         self._red = Pin(1, Pin.OUT)

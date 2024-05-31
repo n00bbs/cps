@@ -7,8 +7,8 @@ def callback_helper(func: function | None, *args, **kwargs):
 
 def run_task_factory(func: function):
   last_task: list[asyncio.Task | None] = [None]
-  def run_task(*args, **kwargs):
+  def _run_task(*args, **kwargs):
     if last_task[0] is not None:
       last_task[0].cancel()
     last_task[0] = asyncio.create_task(func(*args, **kwargs))
-  return run_task
+  return _run_task

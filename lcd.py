@@ -19,5 +19,6 @@ class LCD:
   def write(self, text: str):
     self.lcd.clear()
     lines = text.split("\n")
-    for line in lines:
+    for i, line in enumerate(lines):
+      self.lcd.set_cursor(0, i)
       self.lcd.print(line)

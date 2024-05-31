@@ -90,6 +90,7 @@ class RFID:
         raise Exception("Unknown status %d" % status)
     return encoded_data
   
+  previous_uid: list | None = None
   def _init_interaction(self) -> list | None:
     self.reader.init()
     status, _ = self.reader.request(self.reader.REQIDL)
@@ -124,11 +125,11 @@ class RFID:
     try:
       uid = self._init_interaction()
       if uid is not None:
-        callback_helper(self.on_data_write, self._uidToString(uid))
+        callback_helper(self.on_data_write_start, self._uidToString(uid))
         written_data = self._write(uid, data)
         callback_helper(self.on_data_write_end)
         return written_data
     except Exception as e:
       callback_helper(self.on_data_write_error, e)
-      raise e
+      print(e)
     return None
