@@ -3,6 +3,10 @@ from machine import Pin, PWM
 class StatusLed:
     BASE_FREQUENCY = 1000
 
+    COLOR_CORRECTION_RED = 1
+    COLOR_CORRECTION_GREEN = .025
+    COLOR_CORRECTION_BLUE = .2
+
     def __init__(self):
         self._red = Pin(1, Pin.OUT)
         self._green = Pin(2, Pin.OUT)
@@ -19,9 +23,9 @@ class StatusLed:
         return [int(color[i:i+2], 16) for i in range(0, len(color), 2)]
     
     def _update_color(self):
-        self._red_pwm.duty_u16(self.color[0] * 256)
-        self._green_pwm.duty_u16(self.color[1] * 256)
-        self._blue_pwm.duty_u16(self.color[2] * 256)
+        self._red_pwm.duty_u16(int(self.color[0] * self.COLOR_CORRECTION_RED * 256))
+        self._green_pwm.duty_u16(int(self.color[1] * self.COLOR_CORRECTION_GREEN * 256))
+        self._blue_pwm.duty_u16(int(self.color[2] * self.COLOR_CORRECTION_BLUE * 256))
 
     def set_color(self, color: str):
         self.color = self._parse_color(color)

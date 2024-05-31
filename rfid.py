@@ -14,7 +14,7 @@ class RFID:
   '''`Callable[[str], None]`'''
   on_data_read_error: function | None = None
   '''`Callable[[Exception], None]`'''
-  on_data_write: function | None = None
+  on_data_write_start: function | None = None
   '''`Callable[[str], None]`'''
   on_data_write_end: function | None = None
   '''`Callable[[], None]`'''
