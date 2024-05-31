@@ -70,6 +70,7 @@ class RFID:
         raise Exception("Unknown status %d" % status)
       if (0 in block):
         break
+    data = data[:data.index(0)]
     return self._bytearray_to_str(data)
 
   def _write(self, uid: list, data: str) -> list:
@@ -129,4 +130,5 @@ class RFID:
         return written_data
     except Exception as e:
       callback_helper(self.on_data_write_error, e)
+      raise e
     return None

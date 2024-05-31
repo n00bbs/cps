@@ -13,6 +13,7 @@ class StatusLed:
         self._blue_pwm = PWM(self._blue, freq=self.BASE_FREQUENCY)
 
         self.color = self._parse_color("ffffff")
+        self._update_color()
     
     def _parse_color(self, color: str) -> list:
         return [int(color[i:i+2], 16) for i in range(0, len(color), 2)]
