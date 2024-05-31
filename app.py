@@ -101,7 +101,7 @@ class App:
   _buzz_error = run_task_factory(__buzz_error)
 
   async def __buzz_denied(self):
-    count = 5
+    count = 4
     for i in range(count):
       self.noise_hummer.buzz(440)
       await asyncio.sleep(0.5)
@@ -119,7 +119,7 @@ class App:
         if(self.current_mode == "read"):
           data = self.rfid.read()
         elif(self.current_mode == "write"):
-          data = AccessControl("0000000000", False, "Alexander Klein").to_record()
+          data = AccessControl("0000000000", False, "Michael Ross").to_record()
           self.rfid.write(data)
         await asyncio.sleep(0)
     except KeyboardInterrupt:
